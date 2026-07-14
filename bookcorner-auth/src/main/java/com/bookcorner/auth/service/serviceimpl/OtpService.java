@@ -1,10 +1,9 @@
-package com.bookcorner.auth.service;
+package com.bookcorner.auth.service.serviceimpl;
 
 import com.bookcorner.auth.config.OtpProperties;
 import com.bookcorner.auth.enums.OtpPurpose;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.Mac;

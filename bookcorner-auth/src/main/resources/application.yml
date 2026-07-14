@@ -17,3 +17,9 @@ otp:
   resend-cooldown: 60s
   max-attempts: 5
   hmac-secret: your-secret-key
+
+
+jwt:
+  secret: your-secret-key
+  access-token-expiration: 1h
+  refresh-token-expiration: 1d
