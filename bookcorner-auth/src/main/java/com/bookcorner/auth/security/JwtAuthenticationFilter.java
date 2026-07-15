@@ -1,11 +1,10 @@
 package com.bookcorner.auth.security;
 
-
-
 import com.bookcorner.auth.service.JwtService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,14 +19,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.security.SignatureException;
 
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-
-    private  final JwtService jwtService;
+    private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
 
     @Override
@@ -37,56 +34,103 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             FilterChain filterChain
     ) throws ServletException, IOException {
 
+        // 1. Read Authorization Header
+        final String authHeader = request.getHeader("Authorization");
 
-        String authHeader = request.getHeader("Authorization");
+        // 2. If no JWT, continue request
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        final String jwt= authHeader.substring(7);
+        // 3. Extract JWT
+        final String jwt = authHeader.substring(7);
+
         final String username;
 
         try {
-            username=jwtService.extractUsername(jwt);
-        }catch (ExpiredJwtException | MalformedJwtException
-                | UnsupportedJwtException e) {
-            sendUnauthorized(response, "Invalid or expired token");
+
+            // 4. Extract username from JWT
+            username = jwtService.extractUsername(jwt);
+
+        } catch (ExpiredJwtException e) {
+
+            sendUnauthorized(response, "JWT token has expired.");
+            return;
+
+        } catch (MalformedJwtException e) {
+
+            sendUnauthorized(response, "Malformed JWT token.");
+            return;
+
+        } catch (UnsupportedJwtException e) {
+
+            sendUnauthorized(response, "Unsupported JWT token.");
+            return;
+
+        } catch (SignatureException e) {
+
+            sendUnauthorized(response, "Invalid JWT signature.");
+            return;
+
+        } catch (Exception e) {
+
+            sendUnauthorized(response, "Invalid JWT token.");
             return;
         }
 
-if(username!=null && SecurityContextHolder.getContext().getAuthentication()==null) {
+        // 5. Authenticate only if user is not already authenticated
+        if (username != null
+                && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-    UsernamePasswordAuthenticationToken authenticationToken =
-            new UsernamePasswordAuthenticationToken(
-                    userDetails,
-                    null,
-                    userDetails.getAuthorities()
-            );
-    authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            UserDetails userDetails =
+                    userDetailsService.loadUserByUsername(username);
 
+            // 6. Validate JWT
+            if (jwtService.isTokenValid(jwt, userDetails)) {
 
-    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                UsernamePasswordAuthenticationToken authenticationToken =
+                        new UsernamePasswordAuthenticationToken(
+                                userDetails,
+                                null,
+                                userDetails.getAuthorities()
+                        );
 
+                authenticationToken.setDetails(
+                        new WebAuthenticationDetailsSource()
+                                .buildDetails(request)
+                );
 
-}else  {
-    sendUnauthorized(response, "Token is invalid for this user");
-    return;
-}
+                SecurityContextHolder
+                        .getContext()
+                        .setAuthentication(authenticationToken);
 
+            } else {
 
-filterChain.doFilter(request,response);
-}
+                sendUnauthorized(
+                        response,
+                        "Token is invalid for this user."
+                );
+                return;
+            }
+        }
 
+        // 7. Continue to next filter
+        filterChain.doFilter(request, response);
+    }
 
+    private void sendUnauthorized(
+            HttpServletResponse response,
+            String message
+    ) throws IOException {
 
-    private void sendUnauthorized(HttpServletResponse response, String message)
-            throws IOException {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType("application/json");
-        response.getWriter().write(
-                "{\"error\": \"" + message + "\"}"
-        );
+
+        response.getWriter().write("""
+                {
+                    "error": "%s"
+                }
+                """.formatted(message));
     }
 }
