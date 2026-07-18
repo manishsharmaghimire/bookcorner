@@ -21,6 +21,11 @@
             <groupId>com.bookcorner</groupId>
             <artifactId>bookcorner-shared</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.bookcorner</groupId>
+            <artifactId>bookcorner-category</artifactId>
+            <version>0.1.0</version>
+        </dependency>
 
         <!-- Spring Boot Starter Data JPA -->
         <dependency>

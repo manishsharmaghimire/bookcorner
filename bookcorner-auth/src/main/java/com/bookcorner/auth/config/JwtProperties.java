@@ -26,5 +26,5 @@ public class JwtProperties {
     /**
      * Refresh token lifetime.
      */
-    private Duration refreshTokenExpiration;
+    private Duration refreshTokenExpiration ;
 }

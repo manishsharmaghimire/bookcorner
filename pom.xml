@@ -25,6 +25,7 @@
         <module>bookcorner-category</module>
         <module>bookcorner-author</module>
         <module>bookcorner-publisher</module>
+        <module>bookcorner-book</module>
     </modules>
 
     <properties>

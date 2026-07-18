@@ -64,7 +64,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
 
         } catch (UnsupportedJwtException e) {
-
+  e.printStackTrace();
             sendUnauthorized(response, "Unsupported JWT token.");
             return;
 

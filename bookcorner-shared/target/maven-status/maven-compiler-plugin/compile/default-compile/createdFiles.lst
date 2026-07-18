@@ -1,0 +1,5 @@
+com\bookcorner\shared\dto\ErrorResponse.class
+com\bookcorner\shared\PageResponse.class
+com\bookcorner\shared\exception\ResourceNotFoundException.class
+com\bookcorner\shared\entity\BaseEntity.class
+com\bookcorner\shared\PageResponse$PageResponseBuilder.class

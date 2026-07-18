@@ -20,6 +20,6 @@ otp:
 
 
 jwt:
-  secret: your-secret-key
+  secret: y7BbTa0zBfH0degKfMkKPd12V1oZ+QyyEMll/uIdIVM=
   access-token-expiration: 1h
-  refresh-token-expiration: 1d
+  refresh-token-expiration: 15d

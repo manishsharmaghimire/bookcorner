@@ -1,0 +1,25 @@
+spring:
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password:
+      database: 0
+      timeout: 60000ms
+      jedis:
+        pool:
+          max-active: 8
+          max-wait: -1ms
+          max-idle: 8
+          min-idle: 0
+otp:
+  ttl: 5m
+  resend-cooldown: 60s
+  max-attempts: 5
+  hmac-secret: your-secret-key
+
+
+jwt:
+  secret: y7BbTa0zBfH0degKfMkKPd12V1oZ+QyyEMll/uIdIVM=
+  access-token-expiration: 1h
+  refresh-token-expiration: 1d

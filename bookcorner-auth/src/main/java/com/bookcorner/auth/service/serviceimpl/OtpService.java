@@ -2,6 +2,8 @@ package com.bookcorner.auth.service.serviceimpl;
 
 import com.bookcorner.auth.config.OtpProperties;
 import com.bookcorner.auth.enums.OtpPurpose;
+import com.bookcorner.auth.exception.*;
+import com.bookcorner.auth.service.SmsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ public class OtpService {
 
     private final RedisTemplate<String, String> redisTemplate;
     private final OtpProperties otpProperties;
+    private final SmsService smsService;
 
     private final SecureRandom secureRandom = new SecureRandom();
 
@@ -119,7 +122,7 @@ public class OtpService {
 
         }
 
-        redisTemplate.delete(otpKey);
+        redisTemplate.delete(otps);
         redisTemplate.delete(attemptsKey);
         redisTemplate.delete(cooldownKey);
 

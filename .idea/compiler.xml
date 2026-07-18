@@ -12,9 +12,13 @@
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
         </processorPath>
-        <module name="bookcorner-auth" />
-        <module name="bookcorner-api" />
+        <module name="bookcorner-publisher" />
         <module name="bookcorner-shared" />
+        <module name="bookcorner-auth" />
+        <module name="bookcorner-category" />
+        <module name="bookcorner-author" />
+        <module name="bookcorner-api" />
+        <module name="bookcorner-book" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -25,7 +29,11 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="bookcorner-api" options="-parameters" />
       <module name="bookcorner-auth" options="-parameters" />
+      <module name="bookcorner-author" options="-parameters" />
       <module name="bookcorner-backend" options="-parameters" />
+      <module name="bookcorner-book" options="-parameters" />
+      <module name="bookcorner-category" options="-parameters" />
+      <module name="bookcorner-publisher" options="-parameters" />
       <module name="bookcorner-shared" options="-parameters" />
     </option>
   </component>

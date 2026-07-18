@@ -33,11 +33,11 @@ public class JwtService {
     }
 
 
-    private String buildToken(UserDetails userDetails) {
+    public String generateToken(String phoneNumber) {
 
 
         return builder()
-                .subject(userDetails.getUsername())
+                .subject(phoneNumber)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + jwtProperties.getAccessTokenExpiration().toMillis()))
                 .signWith(getSigningKey())

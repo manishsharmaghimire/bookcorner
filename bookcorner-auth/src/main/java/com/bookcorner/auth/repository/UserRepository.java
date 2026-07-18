@@ -1,7 +1,7 @@
 package com.bookcorner.auth.repository;
 
 import com.bookcorner.auth.entity.User;
-import com.bookcorner.auth.enums.UserStatus;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -2,5 +2,5 @@ package com.bookcorner.auth.service;
 
 public interface SmsService {
 
-    void sendSms(String phoneNumber,String message);
+    void send(String phoneNumber, String message);
 }
