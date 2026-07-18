@@ -22,6 +22,9 @@
         <module>bookcorner-shared</module>
         <module>bookcorner-api</module>
         <module>bookcorner-auth</module>
+        <module>bookcorner-category</module>
+        <module>bookcorner-author</module>
+        <module>bookcorner-publisher</module>
     </modules>
 
     <properties>
