@@ -1,18 +1,26 @@
 package com.bookcorner.books.mapper;
 
+import com.bookcorner.books.dto.BookListResponse;
 import com.bookcorner.books.dto.CategoryResponse;
 import com.bookcorner.books.entity.Category;
+import com.bookcorner.books.projection.BookProjection;
 import org.springframework.stereotype.Component;
 
 @Component
 public class BookMapper {
 
-    public CategoryResponse toResponse(Category category) {
-        return new CategoryResponse(
-                category.getId(),
-                category.getCategoryName(),
-                category.getCategoryDescription(),
-                category.getStatus()
+    public BookListResponse toBookListResponse(
+            BookProjection book
+    ) {
+
+        return new BookListResponse(
+                book.getId(),
+                book.getTitle(),
+                book.getAuthorName(),
+                book.getCategoryName(),
+                book.getPrice(),
+                book.getCoverImageUrl()
+
         );
     }
 }
