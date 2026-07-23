@@ -7,12 +7,6 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="bookcorner-author (1)" />
-        <module name="bookcorner-publisher (1)" />
-        <module name="bookcorner-book (1)" />
-        <module name="bookcorner-auth (1)" />
-        <module name="bookcorner-category (1)" />
-        <module name="bookcorner-shared (1)" />
       </profile>
       <profile name="Annotation profile for BookCorner Parent" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -28,19 +22,36 @@
         </processorPath>
         <module name="bookcorner-category" />
         <module name="bookcorner-author" />
-        <module name="bookcorner-shared" />
         <module name="bookcorner-book" />
         <module name="bookcorner-publisher" />
+        <module name="bookcorner-shared" />
         <module name="bookcorner-auth" />
+      </profile>
+      <profile name="Annotation profile for bookcorner-api" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.32/lombok-1.18.32.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+        </processorPath>
+        <module name="bookcorner-api" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="bookcorner-auth (1)" target="1.5" />
+      <module name="bookcorner-author (1)" target="1.5" />
       <module name="bookcorner-backend" target="21" />
+      <module name="bookcorner-book (1)" target="1.5" />
+      <module name="bookcorner-category (1)" target="1.5" />
+      <module name="bookcorner-publisher (1)" target="1.5" />
+      <module name="bookcorner-shared (1)" target="1.5" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="bookcorner-api" options="" />
+      <module name="bookcorner-api" options="-parameters" />
       <module name="bookcorner-auth" options="-parameters" />
       <module name="bookcorner-author" options="-parameters" />
       <module name="bookcorner-backend" options="-parameters" />

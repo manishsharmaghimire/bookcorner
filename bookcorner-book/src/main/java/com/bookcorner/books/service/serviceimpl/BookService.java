@@ -1,15 +1,18 @@
 package com.bookcorner.books.service.serviceimpl;
 
 
+import com.bookcorner.books.dto.BookDetailsResponse;
 import com.bookcorner.books.dto.BookListResponse;
 import com.bookcorner.books.dto.CategoryRequest;
 import com.bookcorner.books.dto.CategoryResponse;
 import com.bookcorner.books.dto.CategoryStatusRequest;
 import com.bookcorner.books.entity.Category;
 import com.bookcorner.books.enums.CategoryStatus;
+import com.bookcorner.books.exception.BookNotFoundException;
 import com.bookcorner.books.exception.CategoryAlreadyExistsException;
 import com.bookcorner.books.exception.CategoryNotFoundException;
 import com.bookcorner.books.mapper.BookMapper;
+import com.bookcorner.books.projection.BookDetailProjection;
 import com.bookcorner.books.projection.BookProjection;
 import com.bookcorner.books.repository.BookRepository;
 import com.bookcorner.shared.dto.PageResponse;
@@ -66,11 +69,18 @@ public class BookService {
 
 
 
+    }
+    public BookDetailsResponse getBookById(UUID id) {
 
+        BookDetailProjection book = bookRepository
+                .findActiveBookById(id)
+                .orElseThrow(
+                        () -> new BookNotFoundException(
+                                "Book not found."
+                        )
+                );
 
-
-
-
+        return bookMapper.toBookDetailsResponse(book);
     }
 
 }
