@@ -75,4 +75,65 @@ AND b.status = 'ACTIVE'
         """, nativeQuery = true)
 Optional<BookDetailProjection> findActiveBookById(
         @Param("id") UUID id
-);}
+);
+
+    @Query(value = """
+
+SELECT
+    b.id,
+    b.title,
+    b.price,
+    b.cover_image_url AS coverImageUrl,
+    a.author_name AS authorName,
+    c.category_name AS categoryName
+
+FROM books b
+
+INNER JOIN authors a
+ON b.author_id = a.id
+
+INNER JOIN categories c
+ON b.category_id = c.id
+
+WHERE
+    b.status = 'ACTIVE'
+
+AND
+(
+    LOWER(b.title) LIKE LOWER(CONCAT('%', :keyword, '%'))
+    OR LOWER(a.author_name) LIKE LOWER(CONCAT('%', :keyword, '%'))
+)
+
+""",
+
+            countQuery = """
+
+SELECT COUNT(*)
+
+FROM books b
+
+INNER JOIN authors a
+ON b.author_id = a.id
+
+INNER JOIN categories c
+ON b.category_id = c.id
+
+WHERE
+    b.status = 'ACTIVE'
+
+AND
+(
+    LOWER(b.title) LIKE LOWER(CONCAT('%', :keyword, '%'))
+    OR LOWER(a.author_name) LIKE LOWER(CONCAT('%', :keyword, '%'))
+)
+
+""",
+
+            nativeQuery = true)
+    Page<BookProjection> searchBooks(
+            @Param("keyword") String keyword,
+            Pageable pageable
+    );
+
+
+}

@@ -4,6 +4,7 @@ import com.bookcorner.books.dto.BookDetailsResponse;
 import com.bookcorner.books.dto.BookListResponse;
 import com.bookcorner.books.dto.BookRequest;
 import com.bookcorner.books.dto.BookResponse;
+import com.bookcorner.books.dto.BookSearchRequest;
 import com.bookcorner.books.service.serviceimpl.BookService;
 import com.bookcorner.shared.dto.PageResponse;
 import com.bookcorner.shared.dto.PaginationRequest;
@@ -29,6 +30,13 @@ public class BookController {
     ) {
 
         return ResponseEntity.ok(bookService.getAllActiveBooks(request));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<PageResponse<BookListResponse>> searchBooks(
+            @ModelAttribute BookSearchRequest request
+    ) {
+        return ResponseEntity.ok(bookService.searchBooks(request));
     }
 
 

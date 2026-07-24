@@ -24,6 +24,7 @@ import com.bookcorner.shared.dto.PaginationRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -202,5 +203,42 @@ public class BookService {
         book.setStatus(BookStatus.DISCONTINUED);
 
         bookRepository.save(book);
+    }
+
+
+    public  PageResponse<BookListResponse> searchBooks(BookSearchRequest request) {
+
+        String sortBy = request.getSortBy() == null ? "title" : request.getSortBy();
+        Sort.Direction direction = request.getDirection() == null ? Sort.Direction.ASC : request.getDirection();
+        Pageable pageable = PageRequest.of(request.getPage(), request.getSize(), direction, sortBy);
+        Page<BookProjection> books = bookRepository.searchBooks(request.getKeyword(), pageable);
+
+
+        Page<BookListResponse> response =
+                books.map(bookMapper::toBookListResponse);
+        return new PageResponse<>(
+
+                response.getContent(),
+
+                response.getNumber(),
+
+                response.getSize(),
+
+                response.getTotalElements(),
+
+                response.getTotalPages(),
+
+                response.isFirst(),
+
+                response.isLast(),
+
+                response.hasNext(),
+
+                response.hasPrevious()
+
+        );
+
+
+
     }
 }
