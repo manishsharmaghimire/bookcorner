@@ -5,10 +5,7 @@ import com.bookcorner.books.enums.BookStatus;
 import com.bookcorner.publisher.entity.Publisher;
 import com.bookcorner.shared.entity.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -28,10 +25,12 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+
 public class Books extends BaseEntity {
 
 
-    @Column (nullable = false, length = 250)
+    @Column(nullable = false, length = 250)
     private String title;
 
     @Column(nullable = false, length = 20)

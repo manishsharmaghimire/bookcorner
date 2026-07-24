@@ -1,5 +1,6 @@
 package com.bookcorner.books.dto;
 
+import com.bookcorner.books.enums.BookStatus;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -53,5 +54,6 @@ public class BookRequest {
 
     @NotNull(message = "Publisher is required.")
     private UUID publisherId;
+
 
 }
