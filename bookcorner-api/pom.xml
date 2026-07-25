@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.bookcorner</groupId>
+        <artifactId>bookcorner-parent</artifactId>
+        <version>0.1.0</version>
+    </parent>
+
+    <artifactId>bookcorner-api</artifactId>
+    <packaging>jar</packaging>
+    <name>BookCorner API</name>
+    <description>BookCorner Nepal - Main API module</description>
+
+    <dependencies>
+        <!-- Internal Modules -->
+        <dependency>
+            <groupId>com.bookcorner</groupId>
+            <artifactId>bookcorner-shared</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.bookcorner</groupId>
+            <artifactId>bookcorner-auth</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.bookcorner</groupId>
+            <artifactId>bookcorner-category</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.bookcorner</groupId>
+            <artifactId>bookcorner-author</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.bookcorner</groupId>
+            <artifactId>bookcorner-publisher</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.bookcorner</groupId>
+            <artifactId>bookcorner-book</artifactId>
+        </dependency>
+
+        <!-- Spring Boot Starter Web (required for main application) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- SpringDoc OpenAPI -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+        </dependency>
+
+        <!-- MySQL Driver -->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- Testing -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -85,13 +85,5 @@ public class AuthController {
         );
     }
 
-    @PostMapping("/logout")
-    public ResponseEntity<String> logout(
-            @Valid @RequestBody LogoutRequest request
-    ) {
 
-        authService.logout();
-
-        return ResponseEntity.ok("Logged out successfully.");
-    }
 }

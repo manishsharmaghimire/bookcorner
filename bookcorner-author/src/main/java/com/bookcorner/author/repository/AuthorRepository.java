@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public interface AuthorRepository extends JpaRepository<Author, UUID> {
 
-    boolean existByAuthorName(String authorName);
+    boolean existsByAuthorName(String authorName);
 
     Optional<Author> findByAuthorName(String authorName);
 

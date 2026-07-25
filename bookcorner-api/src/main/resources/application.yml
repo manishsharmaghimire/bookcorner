@@ -1,0 +1,69 @@
+spring:
+  application:
+    name: bookcorner-backend
+
+  profiles:
+    active: local
+
+  jackson:
+    default-property-inclusion: non_null
+
+server:
+  port: 8080
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /api-docs
+
+---
+# Local profile: MySQL database
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    url: ${DB_URL:jdbc:mysql://localhost:3306/bookcorner}
+    username: ${DB_USERNAME:bookcorner}
+    password: ${DB_PASSWORD:bookcorner}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+
+---
+# Postgres profile: real database for staging/production.
+spring:
+  config:
+    activate:
+      on-profile: postgres
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/bookcorner}
+    username: ${DB_USERNAME:bookcorner}
+    password: ${DB_PASSWORD:bookcorner}
+    driver-class-name: org.postgresql.Driver
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+
+# bookcorner.jwt.secret / accessTokenExpiryMinutes / refreshTokenExpiryDays
+# are read from JwtProperties (default dev secret baked in there) — override
+# via BOOKCORNER_JWT_SECRET in real deployments, never ship the default.

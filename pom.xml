@@ -77,6 +77,31 @@
                 <artifactId>bookcorner-shared</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.bookcorner</groupId>
+                <artifactId>bookcorner-auth</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.bookcorner</groupId>
+                <artifactId>bookcorner-category</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.bookcorner</groupId>
+                <artifactId>bookcorner-author</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.bookcorner</groupId>
+                <artifactId>bookcorner-publisher</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.bookcorner</groupId>
+                <artifactId>bookcorner-book</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

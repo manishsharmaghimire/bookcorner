@@ -26,7 +26,7 @@ public class PublisherService {
 
    public PublisherResponse createPublisher(PublisherRequest publisherRequest) {
 
-       if(publisherRepository.existByPublisherName(publisherRequest.getPublisherName())) {
+       if(publisherRepository.existsByPublisherName(publisherRequest.getPublisherName())) {
            throw new PublisherAlreadyExistsException();
        }
 

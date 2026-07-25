@@ -26,7 +26,7 @@ public class AuthorService {
 
    public AuthorResponse createAuthor(AuthorRequest authorRequest) {
 
-       if(authorRepository.existByAuthorName(authorRequest.getAuthorName())) {
+       if(authorRepository.existsByAuthorName(authorRequest.getAuthorName())) {
            throw new AuthorAlreadyExistsException();
        }
 

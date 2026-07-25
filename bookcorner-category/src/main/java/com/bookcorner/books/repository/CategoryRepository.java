@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public interface CategoryRepository extends JpaRepository<Category, UUID> {
 
-    boolean existByCategoryName(String categoryName);
+    boolean existsByCategoryName(String categoryName);
 
     Optional<Category> findByCategoryName(String categoryName);
 

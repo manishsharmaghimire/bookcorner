@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public interface PublisherRepository extends JpaRepository<Publisher, UUID> {
 
-    boolean existByPublisherName(String publisherName);
+    boolean existsByPublisherName(String publisherName);
 
     Optional<Publisher> findByPublisherName(String publisherName);
 

@@ -10,6 +10,7 @@ import java.time.Duration;
 
 @Getter
 @Setter
+@Configuration
 @ConfigurationProperties(prefix = "otp")
 public class OtpProperties {
 

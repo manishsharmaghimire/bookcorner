@@ -7,13 +7,12 @@ import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @AllArgsConstructor
 public class BookDetailsResponse {
 
-    private UUID id;
+    private String id;
 
     private String title;
 

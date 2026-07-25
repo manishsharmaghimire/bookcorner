@@ -26,7 +26,7 @@ public class CategoryService {
 
    public CategoryResponse createCategory(CategoryRequest categoryRequest) {
 
-       if(categoryRepository.existByCategoryName(categoryRequest.getCategoryName())) {
+       if(categoryRepository.existsByCategoryName(categoryRequest.getCategoryName())) {
            throw new CategoryAlreadyExistsException();
        }
 
