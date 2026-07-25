@@ -10,6 +10,8 @@ import com.bookcorner.books.projection.BookDetailProjection;
 import com.bookcorner.books.projection.BookProjection;
 import org.springframework.stereotype.Component;
 
+
+
 @Component
 public class BookMapper {
 

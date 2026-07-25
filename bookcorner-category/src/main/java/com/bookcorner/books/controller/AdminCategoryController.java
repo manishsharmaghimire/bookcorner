@@ -16,7 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
+
 
 @RestController
 @RequestMapping("/api/admin/categories")
@@ -37,7 +37,7 @@ public class AdminCategoryController {
 
     @GetMapping("/{id}")
     public ResponseEntity<CategoryResponse> getCategoryById(
-            @PathVariable UUID id
+            @PathVariable Long id
     ) {
         CategoryResponse response = categoryService.getCategoryById(id);
         return ResponseEntity.ok(response);
@@ -65,7 +65,7 @@ public class AdminCategoryController {
 
     @PutMapping("/{id}")
     public ResponseEntity<CategoryResponse> updateCategory(
-            @PathVariable UUID id,
+            @PathVariable Long id,
             @Valid @RequestBody CategoryRequest request
     ) {
         CategoryResponse response = categoryService.updateCategory(id, request);
@@ -74,7 +74,7 @@ public class AdminCategoryController {
 
     @PatchMapping("/{id}/status")
     public ResponseEntity<CategoryResponse> changeCategoryStatus(
-            @PathVariable UUID id,
+            @PathVariable Long id,
             @Valid @RequestBody CategoryStatusRequest request
     ) {
         CategoryResponse response = categoryService.changeCategoryStatus(id, request);
@@ -83,7 +83,7 @@ public class AdminCategoryController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteCategory(
-            @PathVariable UUID id
+            @PathVariable Long id
     ) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new CategoryNotFoundException("Category not found."));

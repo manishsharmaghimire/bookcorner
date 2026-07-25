@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
+
 
 @Service
 @RequiredArgsConstructor
@@ -39,7 +39,7 @@ public class CategoryService {
        return categoryMapper.toResponse(save);
 
    }
-    public CategoryResponse getCategoryById(UUID id) {
+    public CategoryResponse getCategoryById(Long id) {
 
         Category category = categoryRepository.findById(id)
                 .orElseThrow(
@@ -64,7 +64,7 @@ public class CategoryService {
 
 
     public CategoryResponse updateCategory(
-            UUID id,
+            Long id,
             CategoryRequest request
     ) {
 
@@ -97,7 +97,7 @@ public class CategoryService {
     }
 
     public CategoryResponse changeCategoryStatus(
-            UUID id,
+            Long id,
             CategoryStatusRequest request
     ) {
 

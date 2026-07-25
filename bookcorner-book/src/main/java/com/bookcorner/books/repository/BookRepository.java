@@ -15,9 +15,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
-public interface BookRepository extends JpaRepository<Books, UUID> {
+public interface BookRepository extends JpaRepository<Books, Long> {
 
 
     boolean existsByIsbn(String isbn);
@@ -74,13 +73,13 @@ WHERE b.id = :id
 AND b.status = 'ACTIVE'
         """, nativeQuery = true)
 Optional<BookDetailProjection> findActiveBookById(
-        @Param("id") UUID id
+        @Param("id") Long id
 );
 
     @Query(value = """
 
 SELECT
-    b.id,
+   b.id,
     b.title,
     b.price,
     b.cover_image_url AS coverImageUrl,

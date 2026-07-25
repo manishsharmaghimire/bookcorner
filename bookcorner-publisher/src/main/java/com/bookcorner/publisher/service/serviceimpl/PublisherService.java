@@ -13,8 +13,8 @@ import com.bookcorner.publisher.repository.PublisherRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -40,7 +40,7 @@ public class PublisherService {
        return publisherMapper.toResponse(save);
 
    }
-    public PublisherResponse getPublisherById(UUID id) {
+    public PublisherResponse getPublisherById(Long id) {
 
         Publisher publisher = publisherRepository.findById(id)
                 .orElseThrow(
@@ -65,7 +65,7 @@ public class PublisherService {
 
 
     public PublisherResponse updatePublisher(
-            UUID id,
+            Long id,
             PublisherRequest request
     ) {
 
@@ -99,7 +99,7 @@ public class PublisherService {
     }
 
     public PublisherResponse changePublisherStatus(
-            UUID id,
+            Long id,
             PublisherStatusRequest request
     ) {
 

@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
+
 
 @RestController
 @RequestMapping("/api/publishers")
@@ -24,7 +24,7 @@ public class PublisherController {
 
     @GetMapping("/{id}")
     public ResponseEntity<PublisherResponse> getPublisherById(
-            @PathVariable UUID id
+            @PathVariable Long id
     ) {
         PublisherResponse response = publisherService.getPublisherById(id);
         return ResponseEntity.ok(response);

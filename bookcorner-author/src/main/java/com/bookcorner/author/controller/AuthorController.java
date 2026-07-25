@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
+
 
 @RestController
 @RequestMapping("/api/authors")
@@ -24,7 +24,7 @@ public class AuthorController {
 
     @GetMapping("/{id}")
     public ResponseEntity<AuthorResponse> getAuthorById(
-            @PathVariable UUID id
+            @PathVariable Long id
     ) {
         AuthorResponse response = authorService.getAuthorById(id);
         return ResponseEntity.ok(response);

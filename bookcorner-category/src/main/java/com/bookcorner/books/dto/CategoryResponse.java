@@ -13,7 +13,7 @@ import java.util.UUID;
 @Getter
 public class CategoryResponse {
 
-    private UUID id;
+    private Long id;
     private String categoryName;
     private String categoryDescription;
     private CategoryStatus status;

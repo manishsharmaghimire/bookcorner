@@ -7,12 +7,13 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
+
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class BookListResponse {
 
-    private String id;
+    private Long id;
 
     private String title;
 

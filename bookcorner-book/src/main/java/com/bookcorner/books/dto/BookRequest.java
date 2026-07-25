@@ -7,7 +7,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.UUID;
+
 
 @Getter
 @Setter
@@ -47,13 +47,13 @@ public class BookRequest {
     private Integer pages;
 
     @NotNull(message = "Category is required.")
-    private UUID categoryId;
+    private Long categoryId;
 
     @NotNull(message = "Author is required.")
-    private UUID authorId;
+    private Long authorId;
 
     @NotNull(message = "Publisher is required.")
-    private UUID publisherId;
+    private Long publisherId;
 
 
 }

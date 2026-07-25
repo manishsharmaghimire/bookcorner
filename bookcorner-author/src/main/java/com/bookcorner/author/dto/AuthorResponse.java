@@ -3,7 +3,7 @@ package com.bookcorner.author.dto;
 import com.bookcorner.author.enums.AuthorStatus;
 import lombok.*;
 
-import java.util.UUID;
+
 
 @Data
 @Builder
@@ -13,7 +13,7 @@ import java.util.UUID;
 @Getter
 public class AuthorResponse {
 
-    private UUID id;
+    private Long id;
     private String authorName;
     private String authorBio;
     private AuthorStatus status;

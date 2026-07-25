@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
+
 
 @Service
 @RequiredArgsConstructor
@@ -39,7 +39,7 @@ public class AuthorService {
        return authorMapper.toResponse(save);
 
    }
-    public AuthorResponse getAuthorById(UUID id) {
+    public AuthorResponse getAuthorById(Long id) {
 
         Author author = authorRepository.findById(id)
                 .orElseThrow(
@@ -64,7 +64,7 @@ public class AuthorService {
 
 
     public AuthorResponse updateAuthor(
-            UUID id,
+            Long id,
             AuthorRequest request
     ) {
 
@@ -97,7 +97,7 @@ public class AuthorService {
     }
 
     public AuthorResponse changeAuthorStatus(
-            UUID id,
+            Long id,
             AuthorStatusRequest request
     ) {
 

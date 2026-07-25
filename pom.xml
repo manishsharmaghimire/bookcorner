@@ -26,6 +26,7 @@
         <module>bookcorner-author</module>
         <module>bookcorner-publisher</module>
         <module>bookcorner-book</module>
+        <module>bookcorner-wishlist</module>
     </modules>
 
     <properties>
@@ -100,6 +101,11 @@
             <dependency>
                 <groupId>com.bookcorner</groupId>
                 <artifactId>bookcorner-book</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.bookcorner</groupId>
+                <artifactId>bookcorner-wishlist</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

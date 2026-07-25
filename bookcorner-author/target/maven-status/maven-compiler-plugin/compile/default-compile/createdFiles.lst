@@ -1,0 +1,13 @@
+com\bookcorner\author\exception\AuthorNotFoundException.class
+com\bookcorner\author\enums\AuthorStatus.class
+com\bookcorner\author\repository\AuthorRepository.class
+com\bookcorner\author\controller\AuthorController.class
+com\bookcorner\author\exception\AuthorAlreadyExistsException.class
+com\bookcorner\author\controller\AdminAuthorController.class
+com\bookcorner\author\dto\AuthorResponse.class
+com\bookcorner\author\mapper\AuthorMapper.class
+com\bookcorner\author\entity\Author.class
+com\bookcorner\author\dto\AuthorResponse$AuthorResponseBuilder.class
+com\bookcorner\author\dto\AuthorStatusRequest.class
+com\bookcorner\author\service\serviceimpl\AuthorService.class
+com\bookcorner\author\dto\AuthorRequest.class

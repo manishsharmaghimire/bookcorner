@@ -16,7 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
+
 
 @RestController
 @RequestMapping("/api/admin/authors")
@@ -37,7 +37,7 @@ public class AdminAuthorController {
 
     @GetMapping("/{id}")
     public ResponseEntity<AuthorResponse> getAuthorById(
-            @PathVariable UUID id
+            @PathVariable Long id
     ) {
         AuthorResponse response = authorService.getAuthorById(id);
         return ResponseEntity.ok(response);
@@ -65,7 +65,7 @@ public class AdminAuthorController {
 
     @PutMapping("/{id}")
     public ResponseEntity<AuthorResponse> updateAuthor(
-            @PathVariable UUID id,
+            @PathVariable Long id,
             @Valid @RequestBody AuthorRequest request
     ) {
         AuthorResponse response = authorService.updateAuthor(id, request);
@@ -74,7 +74,7 @@ public class AdminAuthorController {
 
     @PatchMapping("/{id}/status")
     public ResponseEntity<AuthorResponse> changeAuthorStatus(
-            @PathVariable UUID id,
+            @PathVariable Long id,
             @Valid @RequestBody AuthorStatusRequest request
     ) {
         AuthorResponse response = authorService.changeAuthorStatus(id, request);
@@ -83,7 +83,7 @@ public class AdminAuthorController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteAuthor(
-            @PathVariable UUID id
+            @PathVariable Long id
     ) {
         Author author = authorRepository.findById(id)
                 .orElseThrow(() -> new AuthorNotFoundException("Author not found."));

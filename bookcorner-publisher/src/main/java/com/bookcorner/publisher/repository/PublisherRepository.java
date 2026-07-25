@@ -6,9 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
-public interface PublisherRepository extends JpaRepository<Publisher, UUID> {
+public interface PublisherRepository extends JpaRepository<Publisher, Long> {
 
     boolean existsByPublisherName(String publisherName);
 

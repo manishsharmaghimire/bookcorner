@@ -3,7 +3,7 @@ package com.bookcorner.publisher.dto;
 import com.bookcorner.publisher.enums.PublisherStatus;
 import lombok.*;
 
-import java.util.UUID;
+
 
 @Data
 @Builder
@@ -13,7 +13,7 @@ import java.util.UUID;
 @Getter
 public class PublisherResponse {
 
-    private UUID id;
+    private Long id;
     private String publisherName;
     private String publisherAddress;
     private String publisherContact;

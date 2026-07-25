@@ -2,11 +2,13 @@ package com.bookcorner.books.projection;
 
 
 import java.math.BigDecimal;
+
+
 public interface BookProjection {
 
 
 
-    String getId();
+    Long getId();
 
     String getTitle();
 

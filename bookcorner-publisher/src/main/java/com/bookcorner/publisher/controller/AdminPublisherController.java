@@ -15,9 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.UUID;
 
+import java.util.List;
 @RestController
 @RequestMapping("/api/admin/publishers")
 @RequiredArgsConstructor
@@ -37,7 +36,7 @@ public class AdminPublisherController {
 
     @GetMapping("/{id}")
     public ResponseEntity<PublisherResponse> getPublisherById(
-            @PathVariable UUID id
+            @PathVariable Long id
     ) {
         PublisherResponse response = publisherService.getPublisherById(id);
         return ResponseEntity.ok(response);
@@ -65,7 +64,7 @@ public class AdminPublisherController {
 
     @PutMapping("/{id}")
     public ResponseEntity<PublisherResponse> updatePublisher(
-            @PathVariable UUID id,
+            @PathVariable Long id,
             @Valid @RequestBody PublisherRequest request
     ) {
         PublisherResponse response = publisherService.updatePublisher(id, request);
@@ -74,7 +73,7 @@ public class AdminPublisherController {
 
     @PatchMapping("/{id}/status")
     public ResponseEntity<PublisherResponse> changePublisherStatus(
-            @PathVariable UUID id,
+            @PathVariable Long id,
             @Valid @RequestBody PublisherStatusRequest request
     ) {
         PublisherResponse response = publisherService.changePublisherStatus(id, request);
@@ -83,7 +82,7 @@ public class AdminPublisherController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletePublisher(
-            @PathVariable UUID id
+            @PathVariable Long id
     ) {
         Publisher publisher = publisherRepository.findById(id)
                 .orElseThrow(() -> new PublisherNotFoundException("Publisher not found."));

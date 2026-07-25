@@ -29,7 +29,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -95,7 +94,7 @@ public class BookService {
     }
 
 
-    public BookResponse updateBooks(UUID id, BookRequest request){
+    public BookResponse updateBooks(Long id, BookRequest request){
 
         Books book = bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException("Book not found."));
         if (!book.getIsbn().equals(request.getIsbn())
@@ -178,7 +177,7 @@ public class BookService {
 
     }
 
-    public BookDetailsResponse getBookById(UUID id) {
+    public BookDetailsResponse getBookById(Long id) {
 
         BookDetailProjection book = bookRepository
                 .findActiveBookById(id)
@@ -191,7 +190,7 @@ public class BookService {
         return bookMapper.toBookDetailsResponse(book);
     }
 
-    public void deleteBook(UUID id) {
+    public void deleteBook(Long id) {
 
         Books book = bookRepository.findById(id)
                 .orElseThrow(

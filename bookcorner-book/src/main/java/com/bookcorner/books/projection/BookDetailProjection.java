@@ -3,8 +3,9 @@ package com.bookcorner.books.projection;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+
 public interface BookDetailProjection {
-    String getId();
+    Long getId();
 
     String getTitle();
 
