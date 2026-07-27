@@ -2,7 +2,7 @@ package com.bookcorner.review.dto;
 
 import lombok.Builder;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Builder
 public class ReviewResponse {
@@ -13,5 +13,5 @@ public class ReviewResponse {
     private String userName;
     private Integer rating;
     private String comment;
-    private LocalDateTime createdAt;
+    private Instant createdAt;
 }
