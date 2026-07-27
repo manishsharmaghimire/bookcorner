@@ -5,6 +5,10 @@ import com.bookcorner.auth.entity.User;
 import com.bookcorner.books.entity.Books;
 import com.bookcorner.shared.entity.BaseEntity;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "wishlist", uniqueConstraints = {
@@ -13,6 +17,11 @@ import jakarta.persistence.*;
                 columnNames = {"user_id", "book_id"}
         )
 })
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+
 public class WishList extends BaseEntity {
 
     @ManyToOne(
