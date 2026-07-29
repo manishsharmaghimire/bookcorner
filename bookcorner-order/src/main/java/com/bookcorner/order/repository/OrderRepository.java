@@ -5,11 +5,12 @@ import com.bookcorner.order.entity.OrderEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface Order extends JpaRepository<OrderEntity, Long> {
+public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
 
 
 
-    List<Order> findByUserOrderByCreatedAtDesc(User user);
-    OrderEntity findByOrderNumber(String orderNumber);
+    List<OrderEntity> findByUserOrderByCreatedAtDesc(User user);
+    Optional<OrderEntity> findByOrderNumber(String orderNumber);
 }

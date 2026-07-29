@@ -28,6 +28,10 @@
         <module>bookcorner-book</module>
         <module>bookcorner-wishlist</module>
         <module>bookcorner-review</module>
+        <module>bookcorner-cart</module>
+        <module>bookcorner-order</module>
+        <module>bookcorner-address</module>
+        <module>bookcorner-payment</module>
     </modules>
 
     <properties>
@@ -112,6 +116,26 @@
             <dependency>
                 <groupId>com.bookcorner</groupId>
                 <artifactId>bookcorner-review</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.bookcorner</groupId>
+                <artifactId>bookcorner-cart</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.bookcorner</groupId>
+                <artifactId>bookcorner-order</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.bookcorner</groupId>
+                <artifactId>bookcorner-address</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.bookcorner</groupId>
+                <artifactId>bookcorner-payment</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

@@ -3,7 +3,6 @@ package com.bookcorner.review.dto;
 import lombok.Builder;
 
 import java.time.Instant;
-
 @Builder
 public class ReviewResponse {
     private Long id;
