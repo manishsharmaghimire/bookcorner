@@ -2,11 +2,14 @@ package com.bookcorner.payment.service.serviceimpl;
 
 import com.bookcorner.auth.security.AuthenticationService;
 import com.bookcorner.order.entity.OrderEntity;
+import com.bookcorner.order.enums.OrderStatus;
+import com.bookcorner.order.exception.OrderNotFoundException;
 import com.bookcorner.order.repository.OrderRepository;
 import com.bookcorner.payment.dto.PaymentRequest;
 import com.bookcorner.payment.dto.PaymentResponse;
 import com.bookcorner.payment.entity.Payment;
 import com.bookcorner.payment.enums.PaymentStatus;
+import com.bookcorner.payment.exception.PaymentAlreadyExistsException;
 import com.bookcorner.payment.exception.PaymentNotFoundException;
 import com.bookcorner.payment.mapper.PaymentMapper;
 import com.bookcorner.payment.repository.PaymentRepository;
@@ -14,8 +17,6 @@ import com.bookcorner.payment.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -29,47 +30,101 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     @Transactional
     public PaymentResponse processPayment(PaymentRequest request) {
+
         var user = authenticationService.getAuthenticatedUser();
-        var orderEntity = orderRepository.findByOrderNumberAndUser(user, request.getOrderNumber()).orElseThrow(() ->
-                new RuntimeException("Order not found.")
-        );
 
+        OrderEntity order = orderRepository
+                .findByOrderNumberAndUser(request.getOrderNumber(), user)
+                .orElseThrow(() ->
+                        new OrderNotFoundException(
+                                "Order not found: " + request.getOrderNumber()
+                        )
+                );
 
-         paymentRepository.findByOrder(orderEntity).ifPresent(order -> {new RuntimeException("Payment already exists for order: " + orderEntity.getOrderNumber())});
+        paymentRepository.findByOrder(order)
+                .ifPresent(existing -> {
+                    throw new PaymentAlreadyExistsException(
+                            "Payment already exists for order: "
+                                    + order.getOrderNumber()
+                    );
+                });
 
+        Payment payment = Payment.builder()
+                .order(order)
+                .paymentMethod(request.getPaymentMethod())
+                .paymentStatus(PaymentStatus.PENDING)
+                .amount(order.getTotalAmount())
+                .build();
 
-         Payment payment = new Payment();
-         payment.setPaymentMethod(request.getPaymentMethod());
-         payment.setPaymentStatus(PaymentStatus.PENDING);
-         payment.setAmount(orderEntity.getTotalAmount());
         Payment savedPayment = paymentRepository.save(payment);
-        return  paymentMapper.toPaymentResponse(savedPayment);
+
+        return paymentMapper.toPaymentResponse(savedPayment);
+    }
 
 
 
+    @Override
+    @Transactional
+    public PaymentResponse markPaymentSuccess(String transactionId) {
 
+        Payment payment = paymentRepository
+                .findByTransactionId(transactionId)
+                .orElseThrow(() ->
+                        new PaymentNotFoundException(
+                                "Payment not found with transaction id: "
+                                        + transactionId
+                        )
+                );
 
+        payment.setPaymentStatus(PaymentStatus.COMPLETED);
+
+        payment.getOrder().setStatus(OrderStatus.CONFIRMED);
+        orderRepository.save(payment.getOrder());
+
+        Payment savedPayment = paymentRepository.save(payment);
+
+        return paymentMapper.toPaymentResponse(savedPayment);
     }
 
     @Override
-    public PaymentResponse getPaymentById(Long id) {
-        Payment payment = paymentRepository.findById(id)
-                .orElseThrow(() -> new PaymentNotFoundException("Payment not found with id: " + id));
-        return paymentMapper.toDto(payment);
-    }
+    @Transactional
+    public PaymentResponse markPaymentFailed(String transactionId) {
 
-    @Override
-    public PaymentResponse getPaymentByOrderId(Long orderId) {
-        Payment payment = paymentRepository.findByOrderId(orderId)
-                .orElseThrow(() -> new PaymentNotFoundException("Payment not found for order id: " + orderId));
-        return paymentMapper.toDto(payment);
-    }
+        Payment payment = paymentRepository
+                .findByTransactionId(transactionId)
+                .orElseThrow(() ->
+                        new PaymentNotFoundException(
+                                "Payment not found with transaction id: "
+                                        + transactionId
+                        )
+                );
 
+        payment.setPaymentStatus(PaymentStatus.FAILED);
+
+        Payment savedPayment = paymentRepository.save(payment);
+
+        return paymentMapper.toPaymentResponse(savedPayment);
+    }
     @Override
-    public List<PaymentResponse> getMyPayments() {
+    public PaymentResponse getPaymentByOrder(String orderNumber) {
+
         var user = authenticationService.getAuthenticatedUser();
-        return paymentRepository.findByUserId(user.getId()).stream()
-                .map(paymentMapper::toDto)
-                .toList();
+
+        OrderEntity order = orderRepository
+                .findByOrderNumberAndUser(orderNumber, user)
+                .orElseThrow(() ->
+                        new OrderNotFoundException(
+                                "Order not found: " + orderNumber
+                        )
+                );
+
+        Payment payment = paymentRepository.findByOrder(order)
+                .orElseThrow(() ->
+                        new PaymentNotFoundException(
+                                "Payment not found for order: " + orderNumber
+                        )
+                );
+
+        return paymentMapper.toPaymentResponse(payment);
     }
 }

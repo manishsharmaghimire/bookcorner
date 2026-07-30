@@ -34,13 +34,32 @@ spring:
       port: ${REDIS_PORT:6379}
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.MySQLDialect
 
+
+otp:
+  ttl: 5m
+  resend-cool-down: 1m
+  max-attempts: 5
+  hmac-secret: bookcorner-otp-secret
+
+jwt:
+  secret: Ym9va2Nvcm5lci1kZXYtc2VjcmV0LWtleS1jaGFuZ2UtaW4tcHJvZHVjdGlvbg==
+  access-token-expiration: 15m
+  refresh-token-expiration: 7d
+
+esewa:
+  merchant-id: EPAYTEST
+  secret-key: 8gBm/:&EnhH.1/q
+  payment-url: https://rc-epay.esewa.com.np/api/epay/main/v2/form
+  verification-url: https://rc.esewa.com.np/api/epay/transaction/status
+  success-url: http://localhost:8080/api/payments/esewa/success
+  failure-url: http://localhost:8080/api/payments/esewa/failure
 ---
 # Postgres profile: real database for staging/production.
 

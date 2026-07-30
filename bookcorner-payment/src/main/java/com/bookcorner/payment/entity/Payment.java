@@ -18,23 +18,21 @@ import java.math.BigDecimal;
 @Builder
 public class Payment extends BaseEntity {
 
-
-
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id",unique = true, nullable = false)
+    @JoinColumn(name = "order_id", unique = true, nullable = false)
     private OrderEntity order;
-
 
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_method", nullable = false)
-    private  PaymentMethod paymentMethod;
+    private PaymentMethod paymentMethod;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_status", nullable = false)
-    private  PaymentStatus paymentStatus;
-    @Column(nullable = false, precision = 10, scale = 2)
+    private PaymentStatus paymentStatus;
+
+
     private String transactionId;
+
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal amount;
-
 }

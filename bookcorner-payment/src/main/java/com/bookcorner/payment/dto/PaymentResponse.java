@@ -5,7 +5,7 @@ import com.bookcorner.payment.enums.PaymentStatus;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Getter
 @Setter
@@ -21,5 +21,5 @@ public class PaymentResponse {
     private PaymentMethod paymentMethod;
     private PaymentStatus status;
     private String transactionId;
-    private LocalDateTime createdAt;
+    private Instant createdAt;
 }

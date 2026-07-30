@@ -47,6 +47,14 @@
         </dependency>
         <dependency>
             <groupId>com.bookcorner</groupId>
+            <artifactId>bookcorner-cart</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.bookcorner</groupId>
+            <artifactId>bookcorner-order</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.bookcorner</groupId>
             <artifactId>bookcorner-payment</artifactId>
         </dependency>
 

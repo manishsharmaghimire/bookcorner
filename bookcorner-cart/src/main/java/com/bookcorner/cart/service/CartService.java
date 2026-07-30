@@ -43,6 +43,7 @@ private final CartMapper cartMapper;
                 .orElseGet(() -> cartRepo.save(
                         Cart.builder()
                                 .user(authenticatedUser)
+                                .cartItems(new java.util.ArrayList<>())
                                 .build()
                 ));
 

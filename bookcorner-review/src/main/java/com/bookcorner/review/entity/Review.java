@@ -21,7 +21,6 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-ev
 public class Review extends BaseEntity {
 
     @ManyToOne(

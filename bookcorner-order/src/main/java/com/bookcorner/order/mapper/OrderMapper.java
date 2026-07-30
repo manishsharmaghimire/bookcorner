@@ -5,8 +5,11 @@ import com.bookcorner.order.dto.OrderResponse;
 import com.bookcorner.order.entity.OrderEntity;
 import com.bookcorner.order.entity.OrderItem;
 
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 
+@Component
 public class OrderMapper {
 
 

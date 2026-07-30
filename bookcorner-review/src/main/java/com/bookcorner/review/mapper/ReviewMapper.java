@@ -13,7 +13,7 @@ public class ReviewMapper {
                 .bookId(review.getBook().getId())
                 .title(review.getBook().getTitle())
                 .authorName(review.getBook().getAuthor().getAuthorName())
-                .userName(review.getUser().getFullName())
+                .userName(review.getUser().getPhoneNumber())
                 .rating(review.getRating())
                 .comment(review.getComment())
                 .createdAt(review.getCreatedAt())

@@ -1,11 +1,9 @@
 package com.bookcorner.payment.dto;
 
 import com.bookcorner.payment.enums.PaymentMethod;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import lombok.*;
-
-import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -14,8 +12,9 @@ import java.math.BigDecimal;
 @Builder
 public class PaymentRequest {
 
-
+    @NotBlank(message = "Order number is required")
     private String orderNumber;
 
+    @NotNull(message = "Payment method is required")
     private PaymentMethod paymentMethod;
 }
