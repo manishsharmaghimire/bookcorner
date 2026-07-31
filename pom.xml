@@ -138,6 +138,7 @@
                 <artifactId>bookcorner-payment</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
 

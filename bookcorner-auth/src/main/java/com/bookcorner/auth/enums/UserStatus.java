@@ -2,6 +2,8 @@ package com.bookcorner.auth.enums;
 
 public enum UserStatus {
 
-    Active,
-    Blocked
+    PENDING,
+    ACTIVE,
+    SUSPENDED,
+    DEACTIVATED
 }

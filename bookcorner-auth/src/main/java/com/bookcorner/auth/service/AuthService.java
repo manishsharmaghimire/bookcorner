@@ -60,7 +60,7 @@ public class AuthService {
 
         user.setRole(Role.User);
 
-        user.setStatus(UserStatus.Active);
+        user.setStatus(UserStatus.ACTIVE);
 
         userRepository.save(user);
     }

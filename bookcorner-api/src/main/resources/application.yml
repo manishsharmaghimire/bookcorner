@@ -57,7 +57,7 @@ esewa:
   merchant-id: EPAYTEST
   secret-key: 8gBm/:&EnhH.1/q
   payment-url: https://rc-epay.esewa.com.np/api/epay/main/v2/form
-  verification-url: https://rc.esewa.com.np/api/epay/transaction/status
+  verification-url: https://rc-epay.esewa.com.np/api/epay/transaction/status/
   success-url: http://localhost:8080/api/payments/esewa/success
   failure-url: http://localhost:8080/api/payments/esewa/failure
 ---
