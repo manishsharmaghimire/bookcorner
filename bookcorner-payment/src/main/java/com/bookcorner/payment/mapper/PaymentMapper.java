@@ -15,7 +15,7 @@ public class PaymentMapper {
                 .amount(payment.getAmount())
                 .paymentMethod(payment.getPaymentMethod())
                 .status(payment.getPaymentStatus())
-                .transactionId(payment.getTransactionId())
+                .transactionId(payment.getMerchantTransactionId())
                 .createdAt(payment.getCreatedAt())
                 .build();
     }

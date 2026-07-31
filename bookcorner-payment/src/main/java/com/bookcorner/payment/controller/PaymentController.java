@@ -24,28 +24,32 @@ public class PaymentController {
         return ResponseEntity.status(HttpStatus.CREATED).body(paymentService.processPayment(request));
     }
 
-    @PostMapping("/success/{transactionId}")
-    public ResponseEntity<PaymentResponse> markPaymentSuccess(@PathVariable String transactionId) {
-        return ResponseEntity.ok(paymentService.markPaymentSuccess(transactionId));
-    }
-
-    @PostMapping("/failed/{transactionId}")
-    public ResponseEntity<PaymentResponse> markPaymentFailed(@PathVariable String transactionId) {
-        return ResponseEntity.ok(paymentService.markPaymentFailed(transactionId));
-    }
-
     @GetMapping("/order/{orderNumber}")
     public ResponseEntity<PaymentResponse> getPaymentByOrder(@PathVariable String orderNumber) {
         return ResponseEntity.ok(paymentService.getPaymentByOrder(orderNumber));
     }
 
     @GetMapping("/esewa/{orderNumber}")
-    public ResponseEntity<EsewaPaymentRequest> createEsewaPayment(
-            @PathVariable String orderNumber
-    ) {
+    public ResponseEntity<EsewaPaymentRequest> createEsewaPayment(@PathVariable String orderNumber) {
+        return ResponseEntity.ok(esewaService.createPaymentRequest(orderNumber));
+    }
 
-        return ResponseEntity.ok(
-                esewaService.createPaymentRequest(orderNumber)
-        );
+    @GetMapping("/esewa/success")
+    public ResponseEntity<String> esewaSuccess(@RequestParam("data") String encodedData) {
+        esewaService.verifyPayment(encodedData);
+        return ResponseEntity.ok("Payment verified successfully.");
+    }
+
+    @GetMapping("/esewa/failure")
+    public ResponseEntity<String> esewaFailure(@RequestParam("data") String encodedData) {
+        // decode to get orderNumber and mark failed
+        try {
+            String decoded = new String(java.util.Base64.getDecoder().decode(encodedData));
+            com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+            com.bookcorner.payment.dto.esewa.EsewaSuccessResponse response =
+                    mapper.readValue(decoded, com.bookcorner.payment.dto.esewa.EsewaSuccessResponse.class);
+            paymentService.markPaymentFailed(response.getTransactionUuid());
+        } catch (Exception ignored) {}
+        return ResponseEntity.ok("Payment failed.");
     }
 }

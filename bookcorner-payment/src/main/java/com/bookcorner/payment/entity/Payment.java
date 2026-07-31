@@ -31,7 +31,11 @@ public class Payment extends BaseEntity {
     private PaymentStatus paymentStatus;
 
 
-    private String transactionId;
+    @Column(name = "merchant_transaction_id", unique = true, nullable = false)
+    private String merchantTransactionId;
+
+    @Column(name = "gateway_transaction_id", unique = true)
+    private String gatewayTransactionId;
 
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal amount;

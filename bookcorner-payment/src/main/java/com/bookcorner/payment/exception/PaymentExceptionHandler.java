@@ -1,5 +1,9 @@
 package com.bookcorner.payment.exception;
 
+import com.bookcorner.payment.exception.InvalidPaymentSignatureException;
+import com.bookcorner.payment.exception.PaymentAlreadyExistsException;
+import com.bookcorner.payment.exception.PaymentNotFoundException;
+import com.bookcorner.payment.exception.PaymentVerificationException;
 import com.bookcorner.shared.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,32 +17,35 @@ import java.time.LocalDateTime;
 public class PaymentExceptionHandler {
 
     @ExceptionHandler(PaymentNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handlePaymentNotFoundException(
-            PaymentNotFoundException ex,
-            WebRequest request
-    ) {
-        ErrorResponse errorResponse = new ErrorResponse(
-                LocalDateTime.now(),
-                HttpStatus.NOT_FOUND.value(),
-                HttpStatus.NOT_FOUND.getReasonPhrase(),
-                ex.getMessage(),
-                request.getDescription(false).replace("uri=", "")
-        );
-        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    public ResponseEntity<ErrorResponse> handlePaymentNotFoundException(PaymentNotFoundException ex, WebRequest request) {
+        return build(HttpStatus.NOT_FOUND, ex.getMessage(), request);
     }
 
     @ExceptionHandler(PaymentAlreadyExistsException.class)
-    public ResponseEntity<ErrorResponse> handlePaymentAlreadyExistsException(
-            PaymentAlreadyExistsException ex,
-            WebRequest request
-    ) {
-        ErrorResponse errorResponse = new ErrorResponse(
-                LocalDateTime.now(),
-                HttpStatus.CONFLICT.value(),
-                HttpStatus.CONFLICT.getReasonPhrase(),
-                ex.getMessage(),
-                request.getDescription(false).replace("uri=", "")
+    public ResponseEntity<ErrorResponse> handlePaymentAlreadyExistsException(PaymentAlreadyExistsException ex, WebRequest request) {
+        return build(HttpStatus.CONFLICT, ex.getMessage(), request);
+    }
+
+    @ExceptionHandler(PaymentVerificationException.class)
+    public ResponseEntity<ErrorResponse> handlePaymentVerificationException(PaymentVerificationException ex, WebRequest request) {
+        return build(HttpStatus.BAD_GATEWAY, ex.getMessage(), request);
+    }
+
+    @ExceptionHandler(InvalidPaymentSignatureException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidPaymentSignatureException(InvalidPaymentSignatureException ex, WebRequest request) {
+        return build(HttpStatus.UNAUTHORIZED, ex.getMessage(), request);
+    }
+
+    private ResponseEntity<ErrorResponse> build(HttpStatus status, String message, WebRequest request) {
+        return new ResponseEntity<>(
+                new ErrorResponse(
+                        LocalDateTime.now(),
+                        status.value(),
+                        status.getReasonPhrase(),
+                        message,
+                        request.getDescription(false).replace("uri=", "")
+                ),
+                status
         );
-        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 }

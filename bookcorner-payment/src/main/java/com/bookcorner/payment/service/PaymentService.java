@@ -5,7 +5,7 @@ import com.bookcorner.payment.dto.PaymentResponse;
 
 public interface PaymentService {
     PaymentResponse processPayment(PaymentRequest request);
-    PaymentResponse markPaymentSuccess(String transactionId);
-    PaymentResponse markPaymentFailed(String transactionId);
+    PaymentResponse markPaymentSuccess(String orderNumber, String gatewayTransactionId);
+    PaymentResponse markPaymentFailed(String orderNumber);
     PaymentResponse getPaymentByOrder(String orderNumber);
 }
