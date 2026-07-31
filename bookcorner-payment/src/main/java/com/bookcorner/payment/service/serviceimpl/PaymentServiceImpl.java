@@ -27,6 +27,7 @@ public class PaymentServiceImpl implements PaymentService {
     private final AuthenticationService authenticationService;
     private final OrderRepository orderRepository;
 
+
     @Override
     @Transactional
     public PaymentResponse processPayment(PaymentRequest request) {
@@ -41,6 +42,12 @@ public class PaymentServiceImpl implements PaymentService {
                         )
                 );
 
+        if (order.getStatus() == OrderStatus.CANCELLED) {
+            throw new IllegalStateException(
+                    "Cannot process payment for a cancelled order."
+            );
+        }
+
         paymentRepository.findByOrder(order)
                 .ifPresent(existing -> {
                     throw new PaymentAlreadyExistsException(
@@ -53,6 +60,7 @@ public class PaymentServiceImpl implements PaymentService {
                 .order(order)
                 .paymentMethod(request.getPaymentMethod())
                 .paymentStatus(PaymentStatus.PENDING)
+                .merchantTransactionId(order.getOrderNumber())
                 .amount(order.getTotalAmount())
                 .build();
 
@@ -63,48 +71,77 @@ public class PaymentServiceImpl implements PaymentService {
 
 
 
+
+
     @Override
     @Transactional
-    public PaymentResponse markPaymentSuccess(String transactionId) {
+    public PaymentResponse markPaymentSuccess(
+            String orderNumber,
+            String gatewayTransactionId
+    ) {
 
-        Payment payment = paymentRepository
-                .findByTransactionId(transactionId)
+        OrderEntity order = orderRepository
+                .findByOrderNumber(orderNumber)
                 .orElseThrow(() ->
-                        new PaymentNotFoundException(
-                                "Payment not found with transaction id: "
-                                        + transactionId
+                        new OrderNotFoundException(
+                                "Order not found."
                         )
                 );
+
+        Payment payment = paymentRepository
+                .findByOrderForUpdate(order)
+                .orElseThrow(() ->
+                        new PaymentNotFoundException(
+                                "Payment not found."
+                        )
+                );
+
+        if (payment.getPaymentStatus() == PaymentStatus.COMPLETED
+                || payment.getGatewayTransactionId() != null) {
+            return paymentMapper.toPaymentResponse(payment);
+        }
+
+        payment.setGatewayTransactionId(gatewayTransactionId);
 
         payment.setPaymentStatus(PaymentStatus.COMPLETED);
 
-        payment.getOrder().setStatus(OrderStatus.CONFIRMED);
-        orderRepository.save(payment.getOrder());
+        order.setStatus(OrderStatus.CONFIRMED);
 
-        Payment savedPayment = paymentRepository.save(payment);
+        orderRepository.save(order);
+
+        Payment savedPayment =
+                paymentRepository.save(payment);
 
         return paymentMapper.toPaymentResponse(savedPayment);
+
     }
+
 
     @Override
     @Transactional
-    public PaymentResponse markPaymentFailed(String transactionId) {
+    public PaymentResponse markPaymentFailed(String orderNumber) {
+
+        OrderEntity order = orderRepository
+                .findByOrderNumber(orderNumber)
+                .orElseThrow(() -> new OrderNotFoundException("Order not found."));
 
         Payment payment = paymentRepository
-                .findByTransactionId(transactionId)
+                .findByOrder(order)
                 .orElseThrow(() ->
                         new PaymentNotFoundException(
-                                "Payment not found with transaction id: "
-                                        + transactionId
+                                "Payment not found for order: " + orderNumber
                         )
                 );
 
+        // Don't downgrade a completed payment
+        if (payment.getPaymentStatus() == PaymentStatus.COMPLETED) {
+            return paymentMapper.toPaymentResponse(payment);
+        }
+
         payment.setPaymentStatus(PaymentStatus.FAILED);
-
-        Payment savedPayment = paymentRepository.save(payment);
-
-        return paymentMapper.toPaymentResponse(savedPayment);
+        return paymentMapper.toPaymentResponse(paymentRepository.save(payment));
     }
+
     @Override
     public PaymentResponse getPaymentByOrder(String orderNumber) {
 
