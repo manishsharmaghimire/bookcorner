@@ -2,8 +2,6 @@ package com.bookcorner.auth.security;
 
 import com.bookcorner.auth.entity.User;
 import com.bookcorner.auth.enums.UserStatus;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,14 +9,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-@Getter
-@RequiredArgsConstructor
-public class CustomUserDetails implements UserDetails {
+public record CustomUserDetails(User user) implements UserDetails {
 
-    private final User user;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()));}
+        return List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()));
+    }
 
     @Override
     public String getPassword() {

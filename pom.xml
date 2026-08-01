@@ -32,6 +32,7 @@
         <module>bookcorner-order</module>
         <module>bookcorner-address</module>
         <module>bookcorner-payment</module>
+        <module>bookcorner-business</module>
     </modules>
 
     <properties>

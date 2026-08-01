@@ -71,7 +71,7 @@ public class AuthService {
 
         var principal = authenticate.getPrincipal();
         CustomUserDetails userDetails = (CustomUserDetails) principal;
-        User user = userDetails.getUser();
+        User user = userDetails.user();
 
         String accessToken = jwtService.generateToken(user.getPhoneNumber());
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(user);
