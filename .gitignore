@@ -30,3 +30,6 @@ Thumbs.db
 # Postman
 postman/
 .postman/
+
+# Removed modules (kept on disk, excluded from build)
+bookcorner-notification/

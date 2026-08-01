@@ -9,6 +9,7 @@ import com.bookcorner.auth.enums.UserStatus;
 import com.bookcorner.auth.exception.UserAlreadyExistsException;
 import com.bookcorner.auth.exception.UserNotFoundException;
 import com.bookcorner.auth.repository.UserRepository;
+import com.bookcorner.auth.security.CustomUserDetails;
 import com.bookcorner.auth.service.serviceimpl.OtpService;
 import com.bookcorner.auth.service.serviceimpl.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -30,7 +32,14 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final RefreshTokenService refreshTokenService;
 
+    @Transactional
     public void register(RegisterRequest registerRequest) {
+
+
+
+        if (userRepository.existsByPhoneNumber(registerRequest.getPhoneNumber())) {
+            throw new UserAlreadyExistsException("User already exists.");
+        }
 
         otpService.verifyOtp(
                 registerRequest.getPhoneNumber(),
@@ -38,62 +47,41 @@ public class AuthService {
                 registerRequest.getOtp()
         );
 
-        boolean exists = userRepository.existsByPhoneNumber(
-                registerRequest.getPhoneNumber()
-        );
 
-        if (exists) {
-            throw new UserAlreadyExistsException(
-                    "User already exists."
-            );
-        }
-
-        User user = new User();
-
-        user.setPhoneNumber(
-                registerRequest.getPhoneNumber()
-        );
-
-        user.setPasswordHash(
-                passwordEncoder.encode(registerRequest.getPassword())
-        );
-
-        user.setRole(Role.User);
-
-        user.setStatus(UserStatus.ACTIVE);
+        User user = User.builder()
+                .phoneNumber(registerRequest.getPhoneNumber())
+                .passwordHash(passwordEncoder.encode(registerRequest.getPassword()))
+                .role(Role.USER)
+                .status(UserStatus.ACTIVE)
+                .build();
 
         userRepository.save(user);
     }
 
+
+
+
     public AuthResponse login(LoginRequest loginRequest) {
 
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getPhoneNumber(),
-                        loginRequest.getPassword()
-                )
-        );
+        var authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                loginRequest.getPhoneNumber(),
+                loginRequest.getPassword()
+        ));
 
-        User user = userRepository.findByPhoneNumber(
-                loginRequest.getPhoneNumber()
-        ).orElseThrow(
-                () -> new UserNotFoundException(
-                        "User not found."
-                )
-        );
 
-        String accessToken = jwtService.generateToken(
-                user.getPhoneNumber()
-        );
+        var principal = authenticate.getPrincipal();
+        CustomUserDetails userDetails = (CustomUserDetails) principal;
+        User user = userDetails.getUser();
 
-        RefreshToken refreshToken =
-                refreshTokenService.createRefreshToken(user);
+        String accessToken = jwtService.generateToken(user.getPhoneNumber());
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(user);
 
         return new AuthResponse(
                 accessToken,
                 "Bearer",
                 refreshToken.getToken()
         );
+
     }
 
     public AuthResponse refreshToken(RefreshTokenRequest request) {

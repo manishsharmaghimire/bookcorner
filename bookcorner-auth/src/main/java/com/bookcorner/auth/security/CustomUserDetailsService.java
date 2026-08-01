@@ -18,14 +18,12 @@ public class CustomUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String phoneNumber) throws UsernameNotFoundException {
-        User user = userRepository.findByPhoneNumber(phoneNumber)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with phone number: " + phoneNumber));
+    public UserDetails loadUserByUsername(String phoneNumber) {
 
-        return org.springframework.security.core.userdetails.User.builder()
-                .username(user.getPhoneNumber())
-                .password(user.getPasswordHash())
-                .authorities(Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole().name())))
-                .build();
+        User user = userRepository.findByPhoneNumber(phoneNumber)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("Invalid credentials."));
+
+        return new CustomUserDetails(user);
     }
 }
